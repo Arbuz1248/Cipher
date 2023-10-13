@@ -129,6 +129,23 @@ class CipherApp:
                                                        command=self.decrypt_transposition)
         self.transposition_decrypt_button.pack()
 
+        self.copyright_label = ttk.Label(root, text="© 2023 Вологодский колледж связи и информационных технологий. Смирнов Андрей. Все права защищены.", anchor="center")
+        self.copyright_label.pack(side="bottom", fill="x")
+
+        self.encrypted_text = tk.Text(self.substitution_tab, height=10, width=50)
+        self.encrypted_text.pack()
+        self.decrypted_text = tk.Text(self.substitution_tab, height=10, width=50)
+        self.decrypted_text.pack()
+
+        self.vigenere_encrypted_text = tk.Text(self.vigenere_tab, height=10, width=50)
+        self.vigenere_encrypted_text.pack()
+        self.vigenere_decrypted_text = tk.Text(self.vigenere_tab, height=10, width=50)
+        self.vigenere_decrypted_text.pack()
+
+
+
+
+
 
 
         # Добавьте текст с описанием каждого шифра во вкладке "О программе"
@@ -159,15 +176,25 @@ class CipherApp:
 
     def encrypt_substitution(self):
         text = self.substitution_text.get("1.0", "end-1c")
-        language = self.language_var_substitution.get()  # Получаем выбранный язык
+        language = self.language_var_substitution.get()
         encrypted_text = substitution_encrypt(text, language)
-        messagebox.showinfo("Зашифрованный текст шифром замены", encrypted_text)
+
+        # Очистите текстовое поле перед обновлением
+        self.encrypted_text.delete(1.0, "end")
+
+        # Вставьте зашифрованный текст в текстовое поле
+        self.encrypted_text.insert("1.0", encrypted_text)
 
     def decrypt_substitution(self):
         text = self.substitution_text.get("1.0", "end-1c")
-        language = self.language_var_substitution.get()  # Получаем выбранный язык
+        language = self.language_var_substitution.get()
         decrypted_text = substitution_decrypt(text, language)
-        messagebox.showinfo("Расшифрованный текст шифром замены", decrypted_text)
+
+        # Очистите текстовое поле перед обновлением
+        self.decrypted_text.delete(1.0, "end")
+
+        # Вставьте дешифрованный текст в текстовое поле
+        self.decrypted_text.insert("1.0", decrypted_text)
 
     def encrypt_morse(self):
         text = self.morse_text.get("1.0", "end-1c")
@@ -181,18 +208,36 @@ class CipherApp:
         messagebox.showinfo("Расшифрованный текст Морзе", decrypted_text)
 
     def encrypt_vigenere(self):
+        # Получите текст и ключ
         text = self.vigenere_text.get("1.0", "end-1c")
         key = self.vigenere_key.get()
-        language = self.language_var.get()  # Получаем выбранный язык
+        language = self.language_var.get()
+
+        # Зашифруйте текст
         encrypted_text = vigenere_encrypt(text, key, language)
-        messagebox.showinfo("Зашифрованный текст", encrypted_text)
+
+        # Очистите текстовые поля перед обновлением
+        self.vigenere_encrypted_text.delete(1.0, "end")
+        self.vigenere_decrypted_text.delete(1.0, "end")
+
+        # Вставьте зашифрованный текст в текстовое поле
+        self.vigenere_encrypted_text.insert("1.0", encrypted_text)
 
     def decrypt_vigenere(self):
+        # Получите текст и ключ
         text = self.vigenere_text.get("1.0", "end-1c")
         key = self.vigenere_key.get()
-        language = self.language_var.get()  # Получаем выбранный язык
+        language = self.language_var.get()  # Получаем выбранный язы
+
+        # Расшифруйте текст
         decrypted_text = vigenere_decrypt(text, key, language)
-        messagebox.showinfo("Расшифрованный текст", decrypted_text)
+
+        # Очистите текстовые поля перед обновлением
+        self.vigenere_encrypted_text.delete(1.0, "end")
+        self.vigenere_decrypted_text.delete(1.0, "end")
+
+        # Вставьте дешифрованный текст в текстовое поле
+        self.vigenere_decrypted_text.insert("1.0", decrypted_text)
 
 
 
