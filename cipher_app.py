@@ -142,6 +142,19 @@ class CipherApp:
         self.vigenere_decrypted_text = tk.Text(self.vigenere_tab, height=10, width=50)
         self.vigenere_decrypted_text.pack()
 
+        self.encrypted_morse_text = tk.Text(self.morse_tab, height=10, width=50)
+        self.encrypted_morse_text.pack()
+        self.decrypted_morse_text = tk.Text(self.morse_tab, height=10, width=50)
+        self.decrypted_morse_text.pack()
+
+        self.encrypted_transposition_text = tk.Text(self.transposition_tab, height=10, width=50)
+        self.encrypted_transposition_text.pack()
+        self.decrypted_transposition_text = tk.Text(self.transposition_tab, height=10, width=50)
+        self.decrypted_transposition_text.pack()
+
+
+
+
 
 
 
@@ -166,13 +179,23 @@ class CipherApp:
         text = self.transposition_text.get("1.0", "end-1c")
         key = int(self.transposition_key.get())
         encrypted_text = transposition_encrypt(text, key)
-        messagebox.showinfo("Encrypted Text", encrypted_text)
+
+        # Очистите текстовое поле перед обновлением
+        self.encrypted_transposition_text.delete(1.0, "end")
+
+        # Вставьте зашифрованный текст в текстовое поле
+        self.encrypted_transposition_text.insert("1.0", encrypted_text)
 
     def decrypt_transposition(self):
         text = self.transposition_text.get("1.0", "end-1c")
         key = int(self.transposition_key.get())
         decrypted_text = transposition_decrypt(text, key)
-        messagebox.showinfo("Decrypted Text", decrypted_text)
+
+        # Очистите текстовое поле перед обновлением
+        self.decrypted_transposition_text.delete(1.0, "end")
+
+        # Вставьте зашифрованный текст в текстовое поле
+        self.decrypted_transposition_text.insert("1.0", decrypted_text)
 
     def encrypt_substitution(self):
         text = self.substitution_text.get("1.0", "end-1c")
@@ -198,14 +221,31 @@ class CipherApp:
 
     def encrypt_morse(self):
         text = self.morse_text.get("1.0", "end-1c")
-        language = self.language_var_morse.get()  # Получаем выбранный язык
-        encrypted_text = morse_encrypt(text, language)
-        messagebox.showinfo("Зашифрованный текст Морзе", encrypted_text)
+        language = self.language_var_morse.get()
+        encrypted_morse = morse_encrypt(text, language)
+
+        # Очистите текстовое поле перед обновлением
+        self.encrypted_morse_text.delete(1.0, "end")
+
+        # Вставьте зашифрованный текст в текстовое поле
+        self.encrypted_morse_text.insert("1.0", encrypted_morse)
 
     def decrypt_morse(self):
-        text = self.morse_text.get("1.0", "end-1c")
-        decrypted_text = morse_decrypt(text)
-        messagebox.showinfo("Расшифрованный текст Морзе", decrypted_text)
+        morse_text = self.morse_text.get("1.0", "end-1c")
+        decrypted_text = morse_decrypt(morse_text)
+
+        # Очистите текстовое поле перед обновлением
+        self.decrypted_morse_text.delete(1.0, "end")
+
+        # Вставьте дешифрованный текст в текстовое поле
+        self.decrypted_morse_text.insert("1.0", decrypted_text)
+
+
+
+
+
+
+
 
     def encrypt_vigenere(self):
         # Получите текст и ключ
@@ -238,9 +278,6 @@ class CipherApp:
 
         # Вставьте дешифрованный текст в текстовое поле
         self.vigenere_decrypted_text.insert("1.0", decrypted_text)
-
-
-
 
 
 
