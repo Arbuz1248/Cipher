@@ -5,8 +5,7 @@ from tkinter import messagebox
 from vigenere_cipher import vigenere_encrypt, vigenere_decrypt
 from morse_cipher import morse_encrypt, morse_decrypt
 from substitution_cipher import substitution_encrypt, substitution_decrypt
-from transposition_cipher import transposition_encrypt, transposition_decrypt
-
+from ceasar_cipher import caesar_encrypt, caesar_decrypt
 class CipherApp:
     def __init__(self, root):
         self.root = root
@@ -17,13 +16,13 @@ class CipherApp:
         self.vigenere_tab = ttk.Frame(self.tab_control)
         self.morse_tab = ttk.Frame(self.tab_control)
         self.substitution_tab = ttk.Frame(self.tab_control)
-        self.transposition_tab = ttk.Frame(self.tab_control)
+        self.caesar_tab = ttk.Frame(self.tab_control)
         self.about_tab = ttk.Frame(self.tab_control)
 
         self.tab_control.add(self.vigenere_tab, text="Виженер")
         self.tab_control.add(self.morse_tab, text="Морзе")
         self.tab_control.add(self.substitution_tab, text="Замены")
-        self.tab_control.add(self.transposition_tab, text="Транспозиция")
+        self.tab_control.add(self.caesar_tab, text="Шифр Цезаря")
         self.tab_control.add(self.about_tab, text="о программе")
 
         self.tab_control.pack(expand=1, fill="both")
@@ -107,27 +106,6 @@ class CipherApp:
                                                       command=self.decrypt_substitution)
         self.substitution_decrypt_button.pack()
 
-        self.transposition_frame = ttk.Frame(self.transposition_tab)
-        self.transposition_frame.pack()
-
-        self.transposition_label = ttk.Label(self.transposition_frame, text="Transposition Cipher")
-        self.transposition_label.pack()
-
-        self.transposition_text = tk.Text(self.transposition_frame, height=5, width=40)
-        self.transposition_text.pack()
-
-        self.transposition_key_label = ttk.Label(self.transposition_frame, text="Enter Key:")
-        self.transposition_key_label.pack()
-        self.transposition_key = tk.Entry(self.transposition_frame)
-        self.transposition_key.pack()
-
-        self.transposition_encrypt_button = ttk.Button(self.transposition_frame, text="Encrypt",
-                                                       command=self.encrypt_transposition)
-        self.transposition_encrypt_button.pack()
-
-        self.transposition_decrypt_button = ttk.Button(self.transposition_frame, text="Decrypt",
-                                                       command=self.decrypt_transposition)
-        self.transposition_decrypt_button.pack()
 
         self.copyright_label = ttk.Label(root, text="© 2023 Вологодский колледж связи и информационных технологий. Смирнов Андрей. Все права защищены.", anchor="center")
         self.copyright_label.pack(side="bottom", fill="x")
@@ -147,10 +125,34 @@ class CipherApp:
         self.decrypted_morse_text = tk.Text(self.morse_tab, height=10, width=50)
         self.decrypted_morse_text.pack()
 
-        self.encrypted_transposition_text = tk.Text(self.transposition_tab, height=10, width=50)
-        self.encrypted_transposition_text.pack()
-        self.decrypted_transposition_text = tk.Text(self.transposition_tab, height=10, width=50)
-        self.decrypted_transposition_text.pack()
+
+        self.caesar_text_label = ttk.Label(self.caesar_tab, text="Введите текст:")
+        self.caesar_text_label.pack()
+        self.caesar_text = tk.Text(self.caesar_tab, height=5, width=50)
+        self.caesar_text.pack()
+
+        self.caesar_key_label = ttk.Label(self.caesar_tab, text="Введите ключ (сдвиг):")
+        self.caesar_key_label.pack()
+        self.caesar_key_entry = ttk.Entry(self.caesar_tab)
+        self.caesar_key_entry.pack()
+
+        self.caesar_encrypted_text_label = ttk.Label(self.caesar_tab, text="Зашифрованный текст:")
+        self.caesar_encrypted_text_label.pack()
+        self.caesar_encrypted_text = tk.Text(self.caesar_tab, height=5, width=50)
+        self.caesar_encrypted_text.pack()
+
+        self.caesar_decrypted_text_label = ttk.Label(self.caesar_tab, text="Дешифрованный текст:")
+        self.caesar_decrypted_text_label.pack()
+        self.caesar_decrypted_text = tk.Text(self.caesar_tab, height=5, width=50)
+        self.caesar_decrypted_text.pack()
+
+        # Добавляем кнопки для шифрования и дешифрования
+        self.encrypt_caesar_button = ttk.Button(self.caesar_tab, text="Зашифровать", command=self.encrypt_caesar)
+        self.encrypt_caesar_button.pack()
+        self.decrypt_caesar_button = ttk.Button(self.caesar_tab, text="Дешифровать", command=self.decrypt_caesar)
+        self.decrypt_caesar_button.pack()
+
+
 
 
 
@@ -175,21 +177,34 @@ class CipherApp:
         about_label = ttk.Label(self.about_tab, text=about_text, wraplength=400)
         about_label.pack()
 
-    def encrypt_transposition(self):
-        text = self.transposition_text.get("1.0", "end-1c")
-        key = int(self.transposition_key.get())
-        encrypted_text = transposition_encrypt(text, key)
+    def encrypt_caesar(self):
+        text = self.caesar_text.get("1.0", "end-1c")
+        key = int(self.caesar_key_entry.get())
 
-        # Очистите текстовое поле перед обновлением
-        self.encrypted_transposition_text.delete(1.0, "end")
+        encrypted_text = caesar_encrypt(text, key)
 
-        # Вставьте зашифрованный текст в текстовое поле
-        self.encrypted_transposition_text.insert("1.0", encrypted_text)
+        # Очистите текстовые поля перед обновлением
+        self.caesar_encrypted_text.delete(1.0, "end")
+        self.caesar_decrypted_text.delete(1.0, "end")
 
-    def decrypt_transposition(self):
-        text = self.transposition_text.get("1.0", "end-1c")
-        key = int(self.transposition_key.get())
-        decrypted_text = transposition_decrypt(text, key)
+        # Вставьте зашифрованный текст в соответствующее текстовое поле
+        self.caesar_encrypted_text.insert("1.0", encrypted_text)
+
+    def decrypt_caesar(self):
+        text = self.caesar_text.get("1.0", "end-1c")
+        key = int(self.caesar_key_entry.get())
+
+        decrypted_text = caesar_decrypt(text, key)
+
+        # Очистите текстовые поля перед обновлением
+        self.caesar_encrypted_text.delete(1.0, "end")
+        self.caesar_decrypted_text.delete(1.0, "end")
+
+        # Вставьте дешифрованный текст в соответствующее текстовое поле
+        self.caesar_decrypted_text.insert("1.0", decrypted_text)
+
+
+
 
         # Очистите текстовое поле перед обновлением
         self.decrypted_transposition_text.delete(1.0, "end")
