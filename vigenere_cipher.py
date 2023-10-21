@@ -1,5 +1,5 @@
-def vigenere_encrypt(text, key, language='english'):
-    if language == 'russian':
+def vigenere_encrypt(text, key, language='Английский'):
+    if language == 'Русский':
         alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
         key = key.upper()
     else:
@@ -22,8 +22,8 @@ def vigenere_encrypt(text, key, language='english'):
 
     return encrypted_text
 
-def vigenere_decrypt(encrypted_text, key, language='english'):
-    if language == 'russian':
+def vigenere_decrypt(encrypted_text, key, language='Английский'):
+    if language == 'Русский':
         alphabet = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'
         key = key.upper()
     else:

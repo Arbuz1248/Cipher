@@ -11,8 +11,8 @@ substitution_key_russian = {
     'Э': ' ', 'Ю': ' ', 'Я': ' '
 }
 
-def substitution_encrypt(text, language='english'):
-    if language == 'russian':
+def substitution_encrypt(text, language='Английский'):
+    if language == 'Русский':
         substitution_key = substitution_key_russian
     else:
         substitution_key = substitution_key_english
@@ -20,8 +20,8 @@ def substitution_encrypt(text, language='english'):
     encrypted_text = ''.join(substitution_key.get(char, char) for char in text.upper())
     return encrypted_text
 
-def substitution_decrypt(encrypted_text, language='english'):
-    if language == 'russian':
+def substitution_decrypt(encrypted_text, language='Английский'):
+    if language == 'Русский':
         decryption_key = {v: k for k, v in substitution_key_russian.items()}
     else:
         decryption_key = {v: k for k, v in substitution_key_english.items()}

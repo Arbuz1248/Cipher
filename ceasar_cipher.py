@@ -1,13 +1,16 @@
-def caesar_encrypt(text, key):
-    encrypted_text = ""
+def caesar_cipher_encrypt(text, shift):
+    result = ""
     for char in text:
         if char.isalpha():
-            shift = ord('A') if char.isupper() else ord('a')
-            encrypted_char = chr((ord(char) - shift + key) % 26 + shift)
-            encrypted_text += encrypted_char
+            if char.islower():
+                result += chr((ord(char) - ord('а') + shift) % 33 + ord('а'))
+            else:
+                result += chr((ord(char) - ord('А') + shift) % 33 + ord('А'))
         else:
-            encrypted_text += char
-    return encrypted_text
+            result += char
+    return result
 
-def caesar_decrypt(text, key):
-    return caesar_encrypt(text, -key)
+def caesar_cipher_decrypt(text, shift):
+    return caesar_cipher_encrypt(text, -shift)
+
+
