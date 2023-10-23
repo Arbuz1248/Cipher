@@ -45,7 +45,7 @@ class CipherApp:
                                               values=["Английский", "Русский"])
         self.language_dropdown.pack()
 
-        self.vigenere_text = tk.Text(self.vigenere_frame, height=5, width=40)
+        self.vigenere_text = tk.Text(self.vigenere_frame, height=5, width=50)
         self.vigenere_text.pack()
 
         self.vigenere_key_label = ttk.Label(self.vigenere_frame, text="Введите ключ:")
@@ -87,7 +87,7 @@ class CipherApp:
         self.language_dropdown_morse.pack()
 
 
-        self.morse_text = tk.Text(self.morse_frame, height=5, width=40)
+        self.morse_text = tk.Text(self.morse_frame, height=5, width=50)
         self.morse_text.pack()
 
 
@@ -127,7 +127,7 @@ class CipherApp:
         self.language_dropdown_substitution.pack()
 
 
-        self.substitution_text = tk.Text(self.substitution_frame, height=5, width=40)
+        self.substitution_text = tk.Text(self.substitution_frame, height=5, width=50)
         self.substitution_text.pack()
 
         self.sub_encrypted_text_label = ttk.Label(self.substitution_tab, text="Зашифрованный текст:")
@@ -206,8 +206,10 @@ class CipherApp:
 
                 1. Шифр Виженера - это полиалфавитный шифр, который использует ключевое слово для последовательного сдвига символов в сообщении на разное количество позиций в алфавите.
                 2. Шифр Морзе - это система кодирования, используемая для представления букв и цифр с помощью последовательности длинных и коротких сигналов (точек и тире).
-                3. Шифр замены - это метод шифрования, в котором каждая буква или символ в сообщении заменяется на другой символ в соответствии с определенным ключом.
+                3. Шифр замены - это метод шифрования, в котором каждая буква или символ в сообщении заменяется на другой символ.
                 4. Шифр Цезаря - это метод шифрования, в котором каждая буква в сообщении сдвигается на фиксированное количество позиций в алфавите.
+                
+                Исходники программы:https://github.com/Arbuz1248/Cipher.git
 
                 """
         about_label = ttk.Label(self.about_tab, text=about_text, wraplength=400)
@@ -285,7 +287,9 @@ class CipherApp:
 
     def decrypt_morse(self):
         morse_text = self.morse_text.get("1.0", "end-1c")
-        decrypted_text = morse_decrypt(morse_text)
+        language = self.language_var_morse.get()
+        decrypted_text = morse_decrypt(morse_text, language)
+
 
         # Очистите текстовое поле перед обновлением
         self.decrypted_morse_text.delete(1.0, "end")
